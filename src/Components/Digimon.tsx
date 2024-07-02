@@ -1,4 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Grid, CircularProgress } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
+
 
 interface Image {
     href: string;
@@ -84,12 +94,12 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
                     url = `https://digi-api.com/api/v1/digimon/${id}`;
                 }
 
-                const response = await fetch(url);
-                if (!response.ok) {
+                const response = await axios.get(url);
+                if (response.status !== 200) {
                     throw new Error('Digimon not found');
                 }
 
-                const data: Digimon = await response.json();
+                const data: Digimon = response.data;
                 setDigimon(data);
                 setLoading(false);
                 setError(null);
@@ -97,7 +107,7 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
                 if (error instanceof Error) {
                     setError(error.message);
                 } else {
-                    setError('Ocurrio un error desconocido');
+                    setError('Ocurrió un error desconocido');
                 }
                 setLoading(false);
             }
@@ -110,7 +120,7 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div >
+        <div>
             <div className="cardS">
                 <div className="card-image">
                     <img src={digimon?.images[0].href} alt={digimon?.name} />
@@ -138,10 +148,6 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
                 </div>
             </div>
 
-
-
-
-
             <div className="card mb-5">
                 <div className="card-header">
                     <h2>Descripción</h2>
@@ -154,7 +160,6 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
                     ))}
                 </div>
             </div>
-
 
             <div className="card hab">
                 <div className="card-header">
@@ -170,31 +175,51 @@ const Digimon: React.FC<DigimonProps> = ({ id }) => {
             </div>
 
             <h2>Evoluciones Anteriores</h2>
-            <div className="row mea">
+            <Grid container spacing={3}>
                 {digimon?.priorEvolutions.map(evolution => (
-                    <div key={evolution.id} className="col-md-3 col-sm-4 col-6">
-                        <div className="card mb-3">
-                            <img src={evolution.image} alt={evolution.digimon} className="card-img-top" />
-                            <div className="card-body">
-                                <p className="card-text">{evolution.digimon}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <Grid item key={evolution.id} xs={12} sm={6} md={4} lg={3}>
+                        <Card sx={{ maxWidth: 500 }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    sx={{ height: '100%', objectFit: 'cover' }}
+                                    image={evolution.image}
+                                    alt={evolution.digimon}
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {evolution.digimon}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
                 ))}
-            </div>
-            <h2>Proximas Evoluciones</h2>
-            <div className="row">
+            </Grid>
+
+            <h2>Próximas Evoluciones</h2>
+            <Grid container spacing={3}>
                 {digimon?.nextEvolutions.map(evolution => (
-                    <div key={evolution.id} className="col-md-3 col-sm-4 col-6">
-                        <div className="card mb-3">
-                            <img src={evolution.image} alt={evolution.digimon} className="card-img-top" />
-                            <div className="card-body">
-                                <p className="card-text">{evolution.digimon}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <Grid item key={evolution.id} xs={12} sm={6} md={4} lg={3}>
+                        <Card sx={{ maxWidth: 500 }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    sx={{ height: '100%', objectFit: 'cover' }}
+                                    image={evolution.image}
+                                    alt={evolution.digimon}
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {evolution.digimon}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
                 ))}
-            </div>
+            </Grid>
+
         </div>
     );
 };
