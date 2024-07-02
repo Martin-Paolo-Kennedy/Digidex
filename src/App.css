@@ -1,0 +1,43 @@
+.img-prinp{
+  max-width: 100vh;
+  display: flex;
+  justify-content: space-between; /* Esto distribuye los elementos con espacio entre ellos */
+  align-items: center; /* Centra verticalmente los elementos */
+}
+.inner-right{
+  margin-right: 0px; /* Esto empuja el div a la derecha */
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  
+}
+li{
+  list-style-type: none; /* Elimina los puntos */
+}
+/* Card.css */
+.cardS {
+  display: flex; /* Agrega esta propiedad para usar flexbox */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+.hab{
+  margin-bottom: 100px;
+}
+.mea{
+  margin-bottom: 100px;
+}
+.card-image img {
+  width: 100%;
+}
+
+.card-content {
+  
+  flex: 1; /* Añade esta propiedad para que ocupe el espacio restante */
+}
